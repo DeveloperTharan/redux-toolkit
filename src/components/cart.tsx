@@ -1,7 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/Store";
-import { Card, CardHeader, Avatar, Button, cn, CardBody, CardFooter } from "@nextui-org/react";
-import { remove } from "../store/cartSlice";
+import {
+  Card,
+  CardHeader,
+  Avatar,
+  Button,
+  cn,
+  CardBody,
+  CardFooter,
+} from "@nextui-org/react";
+import { remove } from "../store/slices/cartSlice";
 
 export const Cart = () => {
   const cartProducts = useSelector((state: RootState) => state.cartSlice);

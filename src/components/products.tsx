@@ -1,6 +1,8 @@
-import { useEffect, useState } from "react";
-
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store/Store";
+import { add } from "../store/slices/cartSlice";
 import { ProductsProps } from "../types/product";
+import { useGetAllProductsQuery } from "../store/slices/apiSlice";
 
 import {
   Avatar,
@@ -11,20 +13,9 @@ import {
   CardHeader,
   cn,
 } from "@nextui-org/react";
-import { useDispatch } from "react-redux";
-import { add } from "../store/cartSlice";
-import { AppDispatch } from "../store/Store";
 
 export const Products = () => {
-  const [products, setPorducts] = useState<ProductsProps[] | undefined>(
-    undefined
-  );
-
-  useEffect(() => {
-    fetch("https://fakestoreapi.com/products")
-      .then((data) => data.json())
-      .then((res) => setPorducts(res));
-  }, []);
+  const products = useGetAllProductsQuery("");
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -33,12 +24,12 @@ export const Products = () => {
       <div className="my-10 w-full text-center font-bold text-3xl">
         Products
       </div>
-      {!products && (
+      {!products.data && (
         <p className="flex items-center justify-center">Loading..</p>
       )}
-      {products && (
+      {products.data && (
         <div className="gap-2 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-col-6">
-          {products.map((data, _) => (
+          {products.data.map((data: ProductsProps) => (
             <Card className="max-w-[340px]" key={data.id}>
               <CardHeader className="justify-between">
                 <div className="flex gap-5">
